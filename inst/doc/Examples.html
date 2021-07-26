@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zankrut Goyani" />
 
-<meta name="date" content="2021-06-03" />
+<meta name="date" content="2021-07-26" />
 
 <title>Data Analysis with selection.index</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Data Analysis with selection.index</h1>
 <h4 class="author">Zankrut Goyani</h4>
-<h4 class="date">2021-06-03</h4>
+<h4 class="date">2021-07-26</h4>
 
 
 
@@ -259,13 +259,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="new-function---remove-trait-from-the-construction-of-selection-indices" class="section level2">
 <h2>New function - remove trait from the construction of selection indices</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcomb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA     PRE</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8638</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3891</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5199 0.7336 41.4578</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2510</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2081 0.1241  7.0165</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4558 0.1413  7.9883</span></span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA     PRE Rank</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8638    1</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3891    4</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5199 0.7336 41.4578    3</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2510    2</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2081 0.1241  7.0165    6</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4558 0.1413  7.9883    5</span></span></code></pre></div>
 <p><strong>Tips to use this package effectively</strong><br> + Must use new functions <br> - <code>comb.indices</code> - without removing any characters or trait<br> - <code>rcomb.indices</code> - by removing desired character <br> + Use for loop to make the selection indices construction <br> + Do not forget the Index of the trait/character when you calculating the selction score and ranking of genotypes.<br></p>
 </div>
 
