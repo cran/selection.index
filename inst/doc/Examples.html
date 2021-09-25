@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zankrut Goyani" />
 
-<meta name="date" content="2021-07-26" />
+<meta name="date" content="2021-09-25" />
 
 <title>Data Analysis with selection.index</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Data Analysis with selection.index</h1>
 <h4 class="author">Zankrut Goyani</h4>
-<h4 class="date">2021-07-26</h4>
+<h4 class="date">2021-09-25</h4>
 
 
 
@@ -177,95 +177,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; spp  0.1460  0.0585  0.0096 -0.0205  0.0632  0.0836  0.0259</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pw   0.0875 -0.0192 -0.0006  0.0064 -0.0245  0.0259  0.0226</span></span></code></pre></div>
 <p>Generally, <strong>Percent Relative Efficiency (PRE)</strong> of a selection index is calculated with reference to <strong>Genetic Advance (GA) yield</strong> of respective weight. So first we calculate the GA of yield for respective weights. + Genetic gain of Yield</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>GA1<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">1</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">1</span>,<span class="dv">1</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">weight_mat =</span> w[<span class="dv">1</span>,<span class="dv">2</span>])</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(GA1)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ID</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1&quot;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $b</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 0.5854</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $GA</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        [,1]</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 1.7694</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $PRE</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1]</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  100</span></span></code></pre></div>
-<p>In single character combination GA is stored in 3^^rd list element. So we can store this GA values in different variables for further use.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>GAY<span class="ot">&lt;-</span> GA1[[<span class="dv">3</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>GAY<span class="ot">&lt;-</span> <span class="fu">gen.advance</span>(<span class="at">phen_mat =</span> pmat[<span class="dv">1</span>,<span class="dv">1</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">weight_mat =</span> w[<span class="dv">1</span>,<span class="dv">2</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(GAY)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [,1]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 1.76942</span></span></code></pre></div>
 <p>We use this GAY value for the construction, ranking of the other selection indices and stored them in a list “si”.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>si<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">1</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">1</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">1</span>,<span class="dv">1</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">1</span>,<span class="dv">1</span>],</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">1</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">2</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">2</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">2</span>,<span class="dv">2</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">2</span>,<span class="dv">2</span>],</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">2</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">3</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">3</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">3</span>,<span class="dv">3</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">3</span>,<span class="dv">3</span>],</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">3</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">4</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">4</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">4</span>,<span class="dv">4</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">4</span>,<span class="dv">4</span>],</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">4</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">5</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">5</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">5</span>,<span class="dv">5</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">5</span>,<span class="dv">5</span>],</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">5</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">6</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">6</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">6</span>,<span class="dv">6</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">6</span>,<span class="dv">6</span>],</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">6</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">7</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">7</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">7</span>,<span class="dv">7</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">7</span>,<span class="dv">7</span>],</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">7</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>si<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">1</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">1</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">1</span>,<span class="dv">1</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">1</span>,<span class="dv">1</span>],</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">1</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">2</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">2</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">2</span>,<span class="dv">2</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">2</span>,<span class="dv">2</span>],</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">2</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">3</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">3</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">3</span>,<span class="dv">3</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">3</span>,<span class="dv">3</span>],</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">3</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">4</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">4</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">4</span>,<span class="dv">4</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">4</span>,<span class="dv">4</span>],</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">4</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">5</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">5</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">5</span>,<span class="dv">5</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">5</span>,<span class="dv">5</span>],</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">5</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">6</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">6</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">6</span>,<span class="dv">6</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">6</span>,<span class="dv">6</span>],</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">6</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>si[[<span class="dv">7</span>]]<span class="ot">&lt;-</span> <span class="fu">sel.index</span>(<span class="at">ID =</span> <span class="dv">7</span>, <span class="at">phen_mat =</span> pmat[<span class="dv">7</span>,<span class="dv">7</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">7</span>,<span class="dv">7</span>],</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weight_mat =</span> w[<span class="dv">7</span>,<span class="dv">2</span>], <span class="at">GAY =</span> GAY)</span></code></pre></div>
 <div id="selection-score-and-ranking-of-genotypes" class="section level2">
 <h2>Selection score and Ranking of genotypes</h2>
 <p>Generally selection score is calculate based on top ranked selection index. So first we store the <strong>discriminant coefficient</strong> value into a variable <strong>b</strong>, and later that value we used for calculation of selection score and ranking of the genotypes.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span> si[[<span class="dv">2</span>]][[<span class="dv">2</span>]]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sel.score.rank</span>(<span class="at">data =</span> d[,<span class="dv">3</span>], <span class="at">bmat =</span> b, <span class="at">genotype =</span> d<span class="sc">$</span>treat)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Genotype Selection.score Rank</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        G1        2.225010   19</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        G2        2.719571   13</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        G3        1.850952   23</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        G4        2.849128    9</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5        G5        2.851852    8</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        G6        2.495223   17</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7        G7        1.992814   22</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8        G8        2.247590   18</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9        G9        3.488099    1</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10      G10        1.565031   25</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11      G11        2.876627    7</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12      G12        2.686027   14</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13      G13        2.755460   11</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14      G14        3.319157    2</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15      G15        1.744992   24</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16      G16        2.680592   15</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17      G17        2.836496   10</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18      G18        2.542172   16</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19      G19        3.168593    4</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20      G20        3.108864    5</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21      G21        3.178894    3</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22      G22        3.105218    6</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23      G23        2.142524   21</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24      G24        2.223275   20</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25      G25        2.733247   12</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>b<span class="ot">&lt;-</span> si[[<span class="dv">2</span>]][[<span class="dv">2</span>]]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sel.score.rank</span>(<span class="at">data =</span> d[,<span class="dv">3</span>], <span class="at">bmat =</span> b, <span class="at">genotype =</span> d<span class="sc">$</span>treat)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Genotype Selection.score Rank</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        G1        2.225010   19</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        G2        2.719571   13</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        G3        1.850952   23</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        G4        2.849128    9</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5        G5        2.851852    8</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        G6        2.495223   17</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7        G7        1.992814   22</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8        G8        2.247590   18</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9        G9        3.488099    1</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10      G10        1.565031   25</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11      G11        2.876627    7</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12      G12        2.686027   14</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13      G13        2.755460   11</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14      G14        3.319157    2</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15      G15        1.744992   24</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16      G16        2.680592   15</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17      G17        2.836496   10</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18      G18        2.542172   16</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19      G19        3.168593    4</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20      G20        3.108864    5</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21      G21        3.178894    3</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22      G22        3.105218    6</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 23      G23        2.142524   21</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 24      G24        2.223275   20</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 25      G25        2.733247   12</span></span></code></pre></div>
 </div>
 <div id="new-function---comb.indices" class="section level2">
 <h2>New function - comb.indices</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA      PRE Rank</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1 0.5854 1.7694 100.0011    1</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2 0.4066 1.6431  92.8638    2</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  3 0.5824 0.5731  32.3891    5</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  4 0.5199 0.7336  41.4578    4</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  5 0.2253 0.9599  54.2510    3</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  6 0.2081 0.1241   7.0165    7</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  7 0.4558 0.1413   7.9883    6</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA      PRE Rank</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1 0.5854 1.7694 100.0000    1</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2 0.4066 1.6431  92.8627    2</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  3 0.5824 0.5731  32.3887    5</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  4 0.5199 0.7336  41.4574    4</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  5 0.2253 0.9599  54.2504    3</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  6 0.2081 0.1241   7.0164    7</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  7 0.4558 0.1413   7.9882    6</span></span></code></pre></div>
 </div>
 <div id="new-function---remove-trait-from-the-construction-of-selection-indices" class="section level2">
 <h2>New function - remove trait from the construction of selection indices</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcomb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA     PRE Rank</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8638    1</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3891    4</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5199 0.7336 41.4578    3</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2510    2</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2081 0.1241  7.0165    6</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4558 0.1413  7.9883    5</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcomb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA     PRE Rank</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8627    1</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3887    4</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5199 0.7336 41.4574    3</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2504    2</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2081 0.1241  7.0164    6</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4558 0.1413  7.9882    5</span></span></code></pre></div>
 <p><strong>Tips to use this package effectively</strong><br> + Must use new functions <br> - <code>comb.indices</code> - without removing any characters or trait<br> - <code>rcomb.indices</code> - by removing desired character <br> + Use for loop to make the selection indices construction <br> + Do not forget the Index of the trait/character when you calculating the selction score and ranking of genotypes.<br></p>
 </div>
 

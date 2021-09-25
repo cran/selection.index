@@ -20,12 +20,9 @@ pmat<- phen.varcov(data = d[,3:9], genotypes = d$treat, replication = d$rep)
 print(pmat)
 
 ## -----------------------------------------------------------------------------
-GA1<- sel.index(ID = 1, phen_mat = pmat[1,1], gen_mat = gmat[1,1],
-                weight_mat = w[1,2])
-print(GA1)
-
-## -----------------------------------------------------------------------------
-GAY<- GA1[[3]]
+GAY<- gen.advance(phen_mat = pmat[1,1], gen_mat = gmat[1,1],
+                  weight_mat = w[1,2])
+print(GAY)
 
 ## -----------------------------------------------------------------------------
 si<- list()
