@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zankrut Goyani" />
 
-<meta name="date" content="2023-09-19" />
+<meta name="date" content="2026-01-26" />
 
 <title>Data Analysis with selection.index</title>
 
@@ -50,6 +50,7 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -340,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Data Analysis with selection.index</h1>
 <h4 class="author">Zankrut Goyani</h4>
-<h4 class="date">2023-09-19</h4>
+<h4 class="date">2026-01-26</h4>
 
 
 
@@ -372,27 +373,43 @@ variance-covariance matrix</strong> for further analysis.</p>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>gmat<span class="ot">&lt;-</span> <span class="fu">gen.varcov</span>(<span class="at">data =</span> d[,<span class="dv">3</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">genotypes =</span> d<span class="sc">$</span>treat, <span class="at">replication =</span> d<span class="sc">$</span>rep)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">print</span>(gmat)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;        sypp     dtf     rpp     ppr     ppp     spp      pw</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; sypp 1.2566  0.3294  0.1588  0.2430  0.7350  0.1276  0.0926</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; dtf  0.3294  1.5602  0.1734 -0.3129 -0.2331  0.1168  0.0330</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; rpp  0.1588  0.1734  0.1325 -0.0316  0.3201 -0.0086 -0.0124</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; ppr  0.2430 -0.3129 -0.0316  0.2432  0.3019 -0.0209  0.0074</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; ppp  0.7350 -0.2331  0.3201  0.3019  0.9608 -0.0692 -0.0582</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; spp  0.1276  0.1168 -0.0086 -0.0209 -0.0692  0.0174  0.0085</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; pw   0.0926  0.0330 -0.0124  0.0074 -0.0582  0.0085  0.0103</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;            sypp         dtf          rpp          ppr         ppp          spp</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; sypp 1.25660210  0.32936305  0.158785900  0.242981986  0.73499020  0.127571993</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; dtf  0.32936305  1.56017847  0.173388420 -0.312908175 -0.23310004  0.116790239</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; rpp  0.15878590  0.17338842  0.132484364 -0.031596521  0.32014873 -0.008643769</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; ppr  0.24298199 -0.31290818 -0.031596521  0.243231727  0.30192365 -0.020860985</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; ppp  0.73499020 -0.23310004  0.320148725  0.301923650  0.96076644 -0.069172364</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; spp  0.12757199  0.11679024 -0.008643769 -0.020860985 -0.06917236  0.017410958</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; pw   0.09261588  0.03298807 -0.012353519  0.007352443 -0.05824420  0.008560105</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;                pw</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; sypp  0.092615879</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; dtf   0.032988075</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; rpp  -0.012353519</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; ppr   0.007352443</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; ppp  -0.058244197</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; spp   0.008560105</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; pw    0.010304709</span></span></code></pre></div>
 <ul>
 <li>Phenotypic variance-covariance matrix</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>pmat<span class="ot">&lt;-</span> <span class="fu">phen.varcov</span>(<span class="at">data =</span> d[,<span class="dv">3</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">genotypes =</span> d<span class="sc">$</span>treat, <span class="at">replication =</span> d<span class="sc">$</span>rep)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">print</span>(pmat)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;        sypp     dtf     rpp     ppr     ppp     spp      pw</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; sypp 2.1465  0.1546  0.2320  0.2761  1.0801  0.1460  0.0875</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; dtf  0.1546  3.8372  0.1314 -0.4282 -0.4703  0.0585 -0.0192</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; rpp  0.2320  0.1314  0.2275 -0.0405  0.4635  0.0096 -0.0006</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; ppr  0.2761 -0.4282 -0.0405  0.4678  0.3931 -0.0205  0.0064</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; ppp  1.0801 -0.4703  0.4635  0.3931  4.2638  0.0632 -0.0245</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; spp  0.1460  0.0585  0.0096 -0.0205  0.0632  0.0836  0.0259</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; pw   0.0875 -0.0192 -0.0006  0.0064 -0.0245  0.0259  0.0226</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;            sypp         dtf           rpp          ppr         ppp          spp</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; sypp 2.14648906  0.15455221  0.2319728887  0.276121850  1.08008088  0.145985907</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; dtf  0.15455221  3.83717336  0.1313373906 -0.428164534 -0.47026101  0.058467819</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; rpp  0.23197289  0.13133739  0.2274791728 -0.040450725  0.46352988  0.009592048</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; ppr  0.27612185 -0.42816453 -0.0404507247  0.467797686  0.39314225 -0.020464804</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; ppp  1.08008088 -0.47026101  0.4635298765  0.393142248  4.26374874  0.063241030</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; spp  0.14598591  0.05846782  0.0095920481 -0.020464804  0.06324103  0.083572855</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; pw   0.08747568 -0.01919207 -0.0006013091  0.006372357 -0.02452747  0.025910429</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;                 pw</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; sypp  0.0874756848</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; dtf  -0.0191920675</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; rpp  -0.0006013091</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; ppr   0.0063723573</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; ppp  -0.0245274713</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; spp   0.0259104291</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; pw    0.0226032987</span></span></code></pre></div>
 <p>Generally, <strong>Percent Relative Efficiency (PRE)</strong> of a
 selection index is calculated with reference to <strong>Genetic Advance
 (GA) yield</strong> of respective weight. So first we calculate the GA
@@ -400,8 +417,8 @@ of yield for respective weights. + Genetic gain of Yield</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>GAY<span class="ot">&lt;-</span> <span class="fu">gen.advance</span>(<span class="at">phen_mat =</span> pmat[<span class="dv">1</span>,<span class="dv">1</span>], <span class="at">gen_mat =</span> gmat[<span class="dv">1</span>,<span class="dv">1</span>],</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                  <span class="at">weight_mat =</span> w[<span class="dv">1</span>,<span class="dv">2</span>])</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">print</span>(GAY)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;         [,1]</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1,] 1.76942</span></span></code></pre></div>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;        [,1]</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1,] 1.7694</span></span></code></pre></div>
 <p>We use this GAY value for the construction, ranking of the other
 selection indices and stored them in a list “si”.</p>
 <div id="selection-score-and-ranking-of-genotypes" class="section level2">
@@ -415,26 +432,26 @@ for calculation of selection score and ranking of the genotypes.</p>
 <h2><code>comb.indices()</code> is used for construction of selection
 indices based on different combination of characters.</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">comb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA      PRE Rank</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; 1  1 0.5854 1.7694 100.0000    1</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 2  2 0.4066 1.6431  92.8627    2</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 3  3 0.5824 0.5731  32.3887    5</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 4  4 0.5199 0.7336  41.4574    4</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 5  5 0.2253 0.9599  54.2504    3</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 6  6 0.2081 0.1241   7.0164    7</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 7  7 0.4558 0.1413   7.9882    6</span></span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ID    b.1     GA      PRE Rank</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; 1  1 0.5854 1.7694 100.0015    1</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 2  2 0.4066 1.6431  92.8628    2</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 3  3 0.5824 0.5731  32.3867    5</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 4  4 0.5200 0.7337  41.4634    4</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 5  5 0.2253 0.9599  54.2494    3</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 6  6 0.2083 0.1242   7.0220    7</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 7  7 0.4559 0.1414   7.9914    6</span></span></code></pre></div>
 </div>
 <div id="rcomb.indices---remove-trait-from-the-construction-of-selection-indices" class="section level2">
 <h2>`rcomb.indices()`` - remove trait from the construction of selection
 indices</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">rcomb.indices</span>(<span class="at">ncomb =</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="dv">1</span>, <span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> w[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">wcol =</span> <span class="dv">1</span>, <span class="at">GAY =</span> GAY)</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   ID      b     GA     PRE Rank</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8627    1</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3887    4</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5199 0.7336 41.4574    3</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2504    2</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2081 0.1241  7.0164    6</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4558 0.1413  7.9882    5</span></span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;   ID    b.1     GA     PRE Rank</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; 1  2 0.4066 1.6431 92.8628    1</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 2  3 0.5824 0.5731 32.3867    4</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 3  4 0.5200 0.7337 41.4634    3</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 4  5 0.2253 0.9599 54.2494    2</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 5  6 0.2083 0.1242  7.0220    6</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 6  7 0.4559 0.1414  7.9914    5</span></span></code></pre></div>
 </div>
 
 

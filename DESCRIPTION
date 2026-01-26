@@ -1,7 +1,7 @@
 Package: selection.index
 Type: Package
 Title: Analysis of Selection Index in Plant Breeding
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
   c(person(given = "Zankrut",
            family = "Goyani",
@@ -12,16 +12,17 @@ Description: The aim of most plant breeding programmes is simultaneous improveme
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Depends: R (>= 2.10)
 Imports: utils
-URL: https://github.com/zankrut20/selection.index
+URL: https://github.com/zankrut20/selection.index,
+        https://zankrut20.github.io/selection.index/
 BugReports: https://github.com/zankrut20/selection.index/issues
 Suggests: rmarkdown, markdown, knitr, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2023-09-19 11:43:22 UTC; goyani
+Packaged: 2026-01-26 15:51:08 UTC; zankrut
 Author: Zankrut Goyani [aut, cre, cph]
 Repository: CRAN
-Date/Publication: 2023-09-19 12:40:04 UTC
+Date/Publication: 2026-01-26 16:10:02 UTC
