@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Zankrut Goyani" />
+
+
+<title>Constrained Linear Genomic Selection Indices</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Constrained Linear Genomic Selection
+Indices</h1>
+<h4 class="author">Zankrut Goyani</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This vignette demonstrates the methodology behind <strong>Constrained
+Linear Genomic Selection Indices (LGSI)</strong> based on Chapter 6 of
+the book <em>Linear Selection Indices in Modern Plant Breeding</em>. The
+objective of constrained selection indices is to maximize genetic
+advance for specific traits while imposing defined restrictions on other
+traits.</p>
+<p>In a genomic selection context, these indices use Genomic Estimated
+Breeding Values (GEBVs). The core indices covered here include:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Restricted Linear Genomic Selection Index (RLGSI)</strong>:
+Aims to improve specific traits while leaving others fixed (null
+restriction).</li>
+<li><strong>Predetermined Proportional Gain Linear Genomic Selection
+Index (PPG-LGSI)</strong>: Aims to achieve specific, predetermined
+proportions of change in the population mean of designated traits.</li>
+<li><strong>Combined RLGSI (CRLGSI)</strong>: Extends RLGSI to use
+phenotypic and GEBV information jointly.</li>
+<li><strong>Combined PPG-LGSI (CPPG-LGSI)</strong>: Extends PPG-LGSI to
+use phenotypic and GEBV information jointly.</li>
+</ol>
+</div>
+<div id="environment-setup-and-data-preparation" class="section level2">
+<h2>Environment Setup and Data Preparation</h2>
+<p>We will utilize synthetic phenotypic and genotypic maize data
+provided in the <code>selection.index</code> package to illustrate these
+methods.</p>
+<div id="estimating-gebvs" class="section level3">
+<h3>1. Estimating GEBVs</h3>
+<p>Before applying these indices, we first estimate genomic breeding
+values. We use Ridge Regression (<code>lm.ridge</code>) from the
+<code>MASS</code> package as a rapid and simple method to simulate this
+step linking marker data to phenotype data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(selection.index)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(MASS) <span class="co"># For Ridge regression</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Load the maize datasets</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_pheno&quot;</span>, <span class="at">package =</span> <span class="st">&quot;selection.index&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_geno&quot;</span>, <span class="at">package =</span> <span class="st">&quot;selection.index&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Extract only the traits we care about to prevent missing value logic failures</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Yield&quot;</span>, <span class="st">&quot;PlantHeight&quot;</span>, <span class="st">&quot;DaysToMaturity&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>maize_pheno_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(maize_pheno[, <span class="fu">c</span>(<span class="st">&quot;Genotype&quot;</span>, <span class="st">&quot;Block&quot;</span>, traits)])</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># Calculate mean performance for phenotypic data</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Providing only the traits to `data` to accurately generate the table</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>pheno_means_full <span class="ot">&lt;-</span> <span class="fu">mean_performance</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="at">data =</span> maize_pheno_clean[, traits],</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="at">genotypes =</span> maize_pheno_clean<span class="sc">$</span>Genotype,</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="at">replications =</span> maize_pheno_clean<span class="sc">$</span>Block,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;Mean&quot;</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co"># Remove the trailing 9 rows composed of summary text-stats automatically generated</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>pheno_means <span class="ot">&lt;-</span> pheno_means_full[<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(pheno_means_full) <span class="sc">-</span> <span class="dv">9</span>), ]</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co"># Extract numerical phenotype matrix</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(pheno_means[, traits])</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="fu">mode</span>(Y) <span class="ot">&lt;-</span> <span class="st">&quot;numeric&quot;</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="fu">rownames</span>(Y) <span class="ot">&lt;-</span> pheno_means<span class="sc">$</span>Genotypes</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co"># Format genotype matrix</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(maize_geno)</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co"># Ensure matching dimensions and align the matrices</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>common_genotypes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">rownames</span>(Y), <span class="fu">rownames</span>(X))</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co"># Filter and sort matrices to match genotypes sequence exactly</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>Y_filtered <span class="ot">&lt;-</span> Y[common_genotypes, ]</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>X_filtered <span class="ot">&lt;-</span> X[common_genotypes, ]</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co"># Calculate GEBVs using a simple Ridge Regression model per trait</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>gebvs_sim <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(Y_filtered), <span class="at">ncol =</span> <span class="fu">ncol</span>(Y_filtered))</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="fu">colnames</span>(gebvs_sim) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(Y_filtered)</span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="fu">rownames</span>(gebvs_sim) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(Y_filtered)</span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>lambda_ridge <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">ncol</span>(Y_filtered))) {</span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a>  <span class="co"># Fit ridge regression to simulate marker effects</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  model_ridge <span class="ot">&lt;-</span> <span class="fu">lm.ridge</span>(Y_filtered[, j] <span class="sc">~</span> X_filtered, <span class="at">lambda =</span> lambda_ridge)</span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a>  beta_ridge <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_ridge)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a>  <span class="co"># Predict GEBVs</span></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a>  gebvs_sim[, j] <span class="ot">&lt;-</span> X_filtered <span class="sc">%*%</span> <span class="fu">matrix</span>(beta_ridge, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>}</span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co"># Define Covariance Matrices</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a>Gamma <span class="ot">&lt;-</span> <span class="fu">cov</span>(gebvs_sim) <span class="co"># Genomic Covariance Matrix estimated from simulated GEBVs</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a>P_matrix <span class="ot">&lt;-</span> <span class="fu">cov</span>(Y_filtered) <span class="co"># Phenotypic Covariance Matrix</span></span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a>C_matrix <span class="ot">&lt;-</span> Gamma <span class="co"># Genetic Covariance (Assuming Gamma captures genetic additive cov)</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="co"># Define vector of economic weights for Yield, PlantHeight, DaysToMaturity</span></span>
+<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="the-restricted-linear-genomic-selection-index-rlgsi" class="section level2">
+<h2>6.1 The Restricted Linear Genomic Selection Index (RLGSI)</h2>
+<p>The RLGSI is applied in a testing population when only GEBVs are
+available. The goal is to maximize the response for some traits while
+restricting the expected generic advance of other traits to exactly
+zero.</p>
+<div id="mathematical-definition" class="section level3">
+<h3>Mathematical Definition</h3>
+<p>The expected genetic advance for RLGSI is restricted by: <span class="math inline">\(Cov(I_{RG}, \mathbf{U}&#39;\mathbf{g}) =
+\mathbf{U}&#39;\boldsymbol{\Gamma}\boldsymbol{\beta}_{RG} =
+\mathbf{0}\)</span>, where <span class="math inline">\(\mathbf{U}&#39;\)</span> is a matrix of 1s and 0s
+identifying the restricted traits.</p>
+<p>Following the maximization step of the selection response, the index
+coefficients <span class="math inline">\(\boldsymbol{\beta}_{RG}\)</span> optimally resolve
+as: <span class="math display">\[ \boldsymbol{\beta}_{RG} =
+\mathbf{K}_{G}\mathbf{w} \]</span> where <span class="math inline">\(\mathbf{K}_{G} = [\mathbf{I} -
+\mathbf{Q}_{G}]\)</span> and <span class="math inline">\(\mathbf{Q}_{G}
+= \mathbf{U} (\mathbf{U}&#39; \boldsymbol{\Gamma} \mathbf{U})^{-1}
+\mathbf{U}&#39; \boldsymbol{\Gamma}\)</span>.</p>
+</div>
+<div id="rlgsi-implementation-example" class="section level3">
+<h3>RLGSI Implementation Example</h3>
+<p>Suppose we want to maximize the gain using our three traits, but we
+want to hold <strong>Plant Height</strong> and <strong>Days To
+Maturity</strong> completely fixed (<span class="math inline">\(0\)</span> gain).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Define the restriction matrix U</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># We restrict traits 2 (PlantHeight) and 3 (DaysToMaturity).</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># Trait 1 (Yield) is left unrestricted.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>U_rlgsi <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span>, <span class="co"># Yield unrestricted</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="co"># PlantHeight restricted</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span> <span class="co"># DaysToMaturity restricted</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># Calculate RLGSI</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>rlgsi_res <span class="ot">&lt;-</span> <span class="fu">rlgsi</span>(<span class="at">Gamma =</span> Gamma, <span class="at">wmat =</span> w, <span class="at">U =</span> U_rlgsi)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># View the resulting index coefficients and Expected Genetic Gain</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;RLGSI Coefficients (beta_RG):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; RLGSI Coefficients (beta_RG):</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="fu">print</span>(rlgsi_res<span class="sc">$</span>b)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; [1]    5.0000 -111.1516  175.9708</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Expected Genetic Gain per Trait:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; Expected Genetic Gain per Trait:</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="fu">print</span>(rlgsi_res<span class="sc">$</span>Summary[, <span class="st">&quot;Delta_H&quot;</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; NULL</span></span></code></pre></div>
+<p>Notice in the output that the Expected Genetic Gain
+(<code>Delta_H</code>) for traits 2 and 3 evaluates to a precision limit
+of <span class="math inline">\(0\)</span>, fulfilling the null-gain
+restriction.</p>
+</div>
+</div>
+<div id="the-predetermined-proportional-gain-linear-genomic-selection-index-ppg-lgsi" class="section level2">
+<h2>6.2 The Predetermined Proportional Gain Linear Genomic Selection
+Index (PPG-LGSI)</h2>
+<p>Instead of forcing a trait to remain fixed at <span class="math inline">\(0\)</span>, we might want a trait’s mean value to
+undergo a highly specific, predefined amount of selection shift.</p>
+<div id="mathematical-definition-1" class="section level3">
+<h3>Mathematical Definition</h3>
+<p>Let <span class="math inline">\(\mathbf{d}&#39; = [d_1, d_2, \ldots,
+d_r]\)</span> be the proportional gain values requested by the breeder.
+Similar to the RLGSI, the coefficient array evaluates identically with a
+targeted constant proportionality factor restricting expected
+proportional shifts: <span class="math display">\[
+\boldsymbol{\beta}_{PG} = \mathbf{K}_{P}\mathbf{w} \]</span></p>
+</div>
+<div id="ppg-lgsi-implementation-example" class="section level3">
+<h3>PPG-LGSI Implementation Example</h3>
+<p>Suppose we want to target <strong>Yield</strong> to proportionally
+increase by <span class="math inline">\(7.0\)</span> units, and
+identically target <strong>Plant Height</strong> to slightly decrease by
+relatively <span class="math inline">\(-3.0\)</span> proportion
+targets.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Define the restriction matrix U for PPG</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Restrict traits 1 (Yield) and 2 (PlantHeight) to predetermined scalars</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>U_ppg <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="dv">1</span>, <span class="dv">0</span>, <span class="co"># Yield restricted</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">1</span>, <span class="co"># PlantHeight restricted</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="dv">0</span>, <span class="dv">0</span> <span class="co"># DaysToMaturity unrestricted</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Define the predetermined values vector &#39;d&#39;</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>d_vec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">7.0</span>, <span class="sc">-</span><span class="fl">3.0</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># Calculate PPG-LGSI</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>ppg_res <span class="ot">&lt;-</span> <span class="fu">ppg_lgsi</span>(<span class="at">Gamma =</span> Gamma, <span class="at">d =</span> d_vec, <span class="at">wmat =</span> w, <span class="at">U =</span> U_ppg)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;PPG-LGSI Coefficients (beta_PG):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; PPG-LGSI Coefficients (beta_PG):</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">print</span>(ppg_res<span class="sc">$</span>b)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; [1]   0.2441 -11.1971  -0.1000</span></span></code></pre></div>
+</div>
+</div>
+<div id="combined-restricted-linear-genomic-selection-index-crlgsi" class="section level2">
+<h2>6.3 Combined Restricted Linear Genomic Selection Index (CRLGSI)</h2>
+<p>The CRLGSI extends the basic RLGSI by integrating <em>both</em>
+phenotypic information and genomic breeding values structurally as
+blocks in a combined index <span class="math inline">\(I_C\)</span>. It
+is mainly applied to a training population where joint data is uniformly
+available.</p>
+<p>Its mathematical structure models parallel coefficient distributions
+across phenotypic and genomic parameters uniformly: <span class="math display">\[ \boldsymbol{\beta}_{CR} =
+\mathbf{K}_{C}\boldsymbol{\beta}_C \]</span></p>
+<p>For an index combining phenotypes and GEBVs, restrictions must
+concurrently be assigned to both empirical dimensions globally.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># 1. Provide Combined Matrices</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># The combined Phenotypic-Genomic covariance matrix T_C</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>T_C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">cbind</span>(P_matrix, Gamma),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">cbind</span>(Gamma, Gamma)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># The combined Genetic-Genomic covariance matrix Psi_C</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>Psi_C <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">cbind</span>(C_matrix, Gamma),</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="fu">cbind</span>(Gamma, Gamma)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co"># 2. Define Restriction Matrix U_C</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># Note: For combined indices of `t` traits, U_C spans exactly 2t rows.</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># Restricting Trait 1 (Yield) on both empirical and genomic parameters:</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>U_crlgsi <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>U_crlgsi[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Trait 1 phenotypic component</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>U_crlgsi[<span class="dv">4</span>, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Trait 1 genomic component</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co"># 3. Calculate CRLGSI</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>crlgsi_res <span class="ot">&lt;-</span> <span class="fu">crlgsi</span>(<span class="at">T_C =</span> T_C, <span class="at">Psi_C =</span> Psi_C, <span class="at">wmat =</span> w, <span class="at">U =</span> U_crlgsi)</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;CRLGSI Combined Coefficients (beta_CR):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; CRLGSI Combined Coefficients (beta_CR):</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="fu">print</span>(crlgsi_res<span class="sc">$</span>b)</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; [1] -6.843302e-05 -1.079215e-03 -5.103276e-02  2.017002e-03 -9.892084e-02</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [6] -4.895374e-02</span></span></code></pre></div>
+</div>
+<div id="combined-predetermined-proportional-gain-linear-genomic-selection-index-cppg-lgsi" class="section level2">
+<h2>6.4 Combined Predetermined Proportional Gain Linear Genomic
+Selection Index (CPPG-LGSI)</h2>
+<p>The CPPG-LGSI combines the dynamic proportional gain vectors to the
+<span class="math inline">\(T_C\)</span> and <span class="math inline">\(\Psi_C\)</span> data blocks identically leveraging
+the <code>cppg_lgsi()</code> logic.</p>
+<div id="cppg-lgsi-implementation-example" class="section level3">
+<h3>CPPG-LGSI Implementation Example</h3>
+<p>Suppose we arbitrarily evaluate <strong>Yield</strong> to
+predetermined restriction constants.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Target Yield using predetermined combined proportions d</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>d_combined <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">7.0</span>, <span class="fl">3.5</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># Calculate CPPG-LGSI dynamically</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>cppg_res <span class="ot">&lt;-</span> <span class="fu">cppg_lgsi</span>(<span class="at">T_C =</span> T_C, <span class="at">Psi_C =</span> Psi_C, <span class="at">d =</span> d_combined, <span class="at">wmat =</span> w, <span class="at">U =</span> U_crlgsi)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;CPPG-LGSI Coefficients (beta_CP):</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; CPPG-LGSI Coefficients (beta_CP):</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">print</span>(cppg_res<span class="sc">$</span>b)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; [1]  4.491881e-06  7.083882e-05  3.349690e-03  4.998047e+00 -7.083498e-05</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; [6] -3.350577e-03</span></span></code></pre></div>
+</div>
+</div>
+<div id="summary-comparison" class="section level2">
+<h2>Summary Comparison</h2>
+<p>Below we extract the standard metrics associated with each index
+model (i.e Selection Response <span class="math inline">\(R\)</span>):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>comparison_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">Index =</span> <span class="fu">c</span>(<span class="st">&quot;RLGSI&quot;</span>, <span class="st">&quot;PPG-LGSI&quot;</span>, <span class="st">&quot;CRLGSI&quot;</span>, <span class="st">&quot;CPPG-LGSI&quot;</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">Selection_Response =</span> <span class="fu">c</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    rlgsi_res<span class="sc">$</span>R,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    ppg_res<span class="sc">$</span>R,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    crlgsi_res<span class="sc">$</span>R,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    cppg_res<span class="sc">$</span>R</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  ),</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="at">Overall_Genetic_Advance =</span> <span class="fu">c</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    rlgsi_res<span class="sc">$</span>GA,</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    ppg_res<span class="sc">$</span>GA,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    crlgsi_res<span class="sc">$</span>GA,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    cppg_res<span class="sc">$</span>GA</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  )</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>)</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="fu">print</span>(comparison_df)</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;       Index Selection_Response Overall_Genetic_Advance</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; 1     RLGSI       1490.8413294            1490.8413294</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; 2  PPG-LGSI        102.6128081             102.9592598</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; 3    CRLGSI          0.9390596               0.9390641</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; 4 CPPG-LGSI       2123.2848118            2123.2848118</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

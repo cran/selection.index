@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>The Linear Phenotypic Selection Index Theory</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">The Linear Phenotypic Selection Index
+Theory</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In plant and animal breeding, quantitative traits (QTs) are
+expressions of genes distributed across the genome interacting with the
+environment. The phenotypic value of QTs (<span class="math inline">\(y\)</span>) can be systematically partitioned into
+a genotypic component (<span class="math inline">\(g\)</span>) and an
+environmental component (<span class="math inline">\(e\)</span>):</p>
+<p><span class="math display">\[ y = g + e \]</span></p>
+<p>The primary goal in breeding is to maximize an individual’s
+<strong>net genetic merit</strong>. The net genetic merit (<span class="math inline">\(H\)</span>) is a linear combination of the
+unobservable true breeding values (<span class="math inline">\(\mathbf{g}\)</span>) weighted by their respective
+economic values (<span class="math inline">\(\mathbf{w}\)</span>):</p>
+<p><span class="math display">\[ H = {\mathbf{w}}^{\prime}\mathbf{g}
+\]</span></p>
+<p>Because the net genetic merit is unobservable in field trials,
+breeders construct a <strong>Linear Phenotypic Selection Index
+(LPSI)</strong> to predict it. The LPSI (<span class="math inline">\(I\)</span>) is a linear combination of the
+observable and optimally weighted phenotypic trait values (<span class="math inline">\(\mathbf{y}\)</span>) adjusted by index
+coefficients (<span class="math inline">\(\mathbf{b}\)</span>):</p>
+<p><span class="math display">\[ I = {\mathbf{b}}^{\prime}\mathbf{y}
+\]</span></p>
+<p>The objective of the LPSI is to predict the net genetic merit and
+maximize the multi-trait selection response.</p>
+</div>
+<div id="optimizing-the-lpsi" class="section level2">
+<h2>Optimizing the LPSI</h2>
+<p>To identify the optimal parents for the next selection cycle, the
+correlation between the net genetic merit (<span class="math inline">\(H\)</span>) and the LPSI (<span class="math inline">\(I\)</span>) must be maximized. The vector <span class="math inline">\(\mathbf{b}\)</span> that simultaneously minimizes
+the mean squared difference between <span class="math inline">\(I\)</span> and <span class="math inline">\(H\)</span> and perfectly maximizes this
+correlation is mathematically derived as:</p>
+<p><span class="math display">\[ \mathbf{b} =
+{\mathbf{P}}^{-1}\mathbf{Gw} \]</span></p>
+<p>where: * <span class="math inline">\(\mathbf{P}\)</span> is the
+phenotypic variance-covariance matrix. * <span class="math inline">\(\mathbf{G}\)</span> is the genotypic
+variance-covariance matrix. * <span class="math inline">\(\mathbf{w}\)</span> is the vector of economic
+weights defining relative trait importance.</p>
+<p>Once these optimal coefficients are derived, we can evaluate two
+fundamental parameters:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>The Maximized Selection Response (<span class="math inline">\(R_I\)</span>)</strong>: The expected mean
+improvement in the net genetic merit due to indirect selection on the
+index. <span class="math display">\[ {R}_I =
+{k}_I\sqrt{{\mathbf{b}}^{\prime}\mathbf{Pb}} \]</span></p></li>
+<li><p><strong>The Expected Genetic Gain Per Trait (<span class="math inline">\(\mathbf{E}\)</span>)</strong>: The multi-trait
+selection response broken down per individual trait. <span class="math display">\[ \mathbf{E} = {k}_I\frac{\mathbf{Gb}}{\sigma_I}
+\]</span></p></li>
+</ol>
+<p>where <span class="math inline">\(k_I\)</span> is the standardized
+selection intensity and <span class="math inline">\(\sigma_I\)</span> is
+the standard deviation of the index score variance.</p>
+</div>
+<div id="practical-implementation-in-r" class="section level2">
+<h2>Practical Implementation in R</h2>
+<p>We can seamlessly translate this text theory into rigorous
+statistical practice using the <code>selection.index</code> package. We
+will utilize the built-in synthetic datasets: <code>maize_pheno</code>
+(containing multi-environment phenotypic records for 100 genotypes) and
+<code>maize_geno</code> (500 SNP markers).</p>
+<div id="estimating-covariance-matrices" class="section level3">
+<h3>1. Estimating Covariance Matrices</h3>
+<p>First, we estimate the genotypic (<span class="math inline">\(\mathbf{G}\)</span>) and phenotypic (<span class="math inline">\(\mathbf{P}\)</span>) variance-covariance matrices
+from our raw phenotypic dataset.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(selection.index)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Load the synthetic phenotypic multi-environment dataset</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_pheno&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># In maize_pheno: Traits are columns 4:6.</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Genotypes are in column 1, and Block/Replication is in column 3.</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>gmat <span class="ot">&lt;-</span> <span class="fu">gen_varcov</span>(<span class="at">data =</span> maize_pheno[, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">genotypes =</span> maize_pheno[, <span class="dv">1</span>], <span class="at">replication =</span> maize_pheno[, <span class="dv">3</span>])</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>pmat <span class="ot">&lt;-</span> <span class="fu">phen_varcov</span>(<span class="at">data =</span> maize_pheno[, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">genotypes =</span> maize_pheno[, <span class="dv">1</span>], <span class="at">replication =</span> maize_pheno[, <span class="dv">3</span>])</span></code></pre></div>
+</div>
+<div id="defining-economic-weights" class="section level3">
+<h3>2. Defining Economic Weights</h3>
+<p>Next, we establish the relative economic priority of each trait.
+Economic weights (<span class="math inline">\(\mathbf{w}\)</span>)
+explicitly define our strategic breeding objectives.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Define the economic weights for the 3 continuous traits</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># (e.g., Yield, PlantHeight, DaysToMaturity)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">5</span>, <span class="sc">-</span><span class="dv">5</span>)</span></code></pre></div>
+</div>
+<div id="calculating-the-lpsi" class="section level3">
+<h3>3. Calculating the LPSI</h3>
+<p>With the covariance matrices and economic weights specified, we
+integrate them into the primary <code>lpsi()</code> function, which
+evaluates the combinatorial multi-trait selection indices
+efficiently.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Calculate the Optimal Combinatorial Linear Phenotypic Selection Index (LPSI)</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>index_results <span class="ot">&lt;-</span> <span class="fu">lpsi</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">ncomb =</span> <span class="dv">3</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">wmat =</span> <span class="fu">as.matrix</span>(weights),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="at">wcol =</span> <span class="dv">1</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="evaluating-outcomes-and-selecting-genotypes" class="section level3">
+<h3>4. Evaluating Outcomes and Selecting Genotypes</h3>
+<p>Finally, we evaluate the theoretical gains. The <code>lpsi()</code>
+function returns a structured data frame containing the theoretical
+selection response (<span class="math inline">\(R_I\)</span>) and other
+parameter estimates for all requested trait combinations.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># View the top combinatorial indices, including their selection response (R_A)</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">head</span>(index_results)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;        ID      b.1      b.2     b.3      GA       PRE Delta_G     rHI      hI2</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 1 1, 2, 3 2364.671 9453.933 1012156 6863519 686351898 6863519 42.0899 1771.794</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   Rank</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 1    1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># Extract the phenotypic selection scores to strategically rank the parental candidates</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># using the top evaluated combinatorial index</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">predict_selection_score</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  index_results,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="at">data =</span> maize_pheno[, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>],</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="at">genotypes =</span> maize_pheno[, <span class="dv">1</span>]</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># View the top performing candidates designated for the next breeding cycle</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="fu">head</span>(scores)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;   Genotypes   I_1_2_3 I_1_2_3_Rank</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 1      G001 138639943           78</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 2      G002 138393284           83</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 3      G003 138260546           88</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 4      G004 139442740           46</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; 5      G005 139319528           51</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; 6      G006 139661606           36</span></span></code></pre></div>
+</div>
+<div id="extension-linear-marker-selection-index" class="section level3">
+<h3>5. Extension: Linear Marker Selection Index</h3>
+<p>The classical linear selection index theories seamlessly extend to
+marker-assisted genomic selection. If you have genome-wide marker
+profiles for your genotypes, you can incorporate them to estimate the
+Linear Marker Selection Index (LMSI).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Load the associated synthetic genomic dataset (500 SNPs for the 100 genotypes)</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_geno&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># Calculate the marker-assisted index combining our matrices and raw SNP profiles</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>marker_index_results <span class="ot">&lt;-</span> <span class="fu">lmsi</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">marker_scores =</span> maize_geno,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">wmat =</span> weights</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">summary</span>(marker_index_results)</span></code></pre></div>
+</div>
+<div id="the-base-index-and-index-efficiency" class="section level3">
+<h3>6. The Base Index and Index Efficiency</h3>
+<p>In scenarios where the phenotypic (<span class="math inline">\(\mathbf{P}\)</span>) and genotypic (<span class="math inline">\(\mathbf{G}\)</span>) matrices are poorly estimated
+(e.g., due to limited data), the true optimal coefficients (<span class="math inline">\(\mathbf{b}\)</span>) can be systematically biased.
+The <strong>Base Index</strong> provides a robust, non-optimized
+alternative where coefficients are set strictly equal to the fixed
+economic weights (<span class="math inline">\(I_B =
+\mathbf{w}&#39;\mathbf{y}\)</span>).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Calculate the Base Index and automatically compare its efficiency to the LPSI</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>base_results <span class="ot">&lt;-</span> <span class="fu">base_index</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">compare_to_lpsi =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># Observe the expected genetic gains and efficiency comparison</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>base_results<span class="sc">$</span>summary</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   b.1 b.2 b.3      GA       PRE  Delta_G      hI2     rHI</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 1  10  -5  -5 1824121 182412094 14577.53 125.1324 11.1863</span></span></code></pre></div>
+</div>
+<div id="heritability-of-the-lpsi" class="section level3">
+<h3>7. Heritability of the LPSI</h3>
+<p>The theory demonstrates that the correlation between the net genetic
+merit (<span class="math inline">\(H\)</span>) and the expected index
+(<span class="math inline">\(I\)</span>) differs from the traditional
+index heritability mathematically (<span class="math inline">\(h^2_I
+\neq \rho^2_{HI}\)</span>). The <code>lpsi()</code> function
+intrinsically estimates both of these fundamental statistics:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Extract the top combinatorial index results</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>top_index <span class="ot">&lt;-</span> index_results[<span class="dv">1</span>, ]</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># h^2_I: Heritability of the optimal index</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>top_index<span class="sc">$</span>hI2</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; [1] 1771.794</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># \rho_HI: Correlation between the LPSI and the true underlying Net Genetic Merit</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>top_index<span class="sc">$</span>rHI</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [1] 42.0899</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

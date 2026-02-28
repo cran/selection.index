@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Linear Phenotypic Eigen Selection Index Methods</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Linear Phenotypic Eigen Selection Index
+Methods</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Based on canonical correlation, singular value decomposition (SVD),
+and linear phenotypic selection indices theory, the <strong>Eigen
+Selection Index Method (ESIM)</strong>, the <strong>Restricted ESIM
+(RESIM)</strong>, and the <strong>Predetermined Proportional Gain ESIM
+(PPG-ESIM)</strong> use only phenotypic information to predict the net
+genetic merit and select superior genotypes.</p>
+<p>While the Linear Phenotypic Selection Index (LPSI) assumes economic
+weights are known, the ESIM family estimates them in each selection
+cycle to maximize the correlation between the index and the net genetic
+merit (i.e., accuracy) and the selection response. ESIM is unrestricted,
+whereas RESIM fixes specific traits to zero genetic gain, and PPG-ESIM
+ensures traits gain in strict prefixed proportions.</p>
+<p>This vignette details the theoretical foundation of these three eigen
+analysis indices alongside practical workflows for estimating them using
+the <code>selection.index</code> package.</p>
+<div id="sample-data-preparation" class="section level3">
+<h3>Sample Data Preparation</h3>
+<p>Throughout this vignette, we will reuse the <code>maize_pheno</code>
+package dataset to calculate our phenotypic (<span class="math inline">\(\mathbf{P}\)</span>) and genotypic (<span class="math inline">\(\mathbf{G}\)</span> or <span class="math inline">\(\mathbf{C}\)</span>) covariance matrices.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(selection.index)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Load the built-in maize phenotype dataset</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_pheno&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># Extract the traits of interest</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Yield&quot;</span>, <span class="st">&quot;PlantHeight&quot;</span>, <span class="st">&quot;DaysToMaturity&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Calculate Genotypic (gmat) and Phenotypic (pmat) covariance matrices</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>gmat <span class="ot">&lt;-</span> <span class="fu">gen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Genotype, maize_pheno<span class="sc">$</span>Block)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>pmat <span class="ot">&lt;-</span> <span class="fu">phen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Genotype, maize_pheno<span class="sc">$</span>Block)</span></code></pre></div>
+</div>
+</div>
+<div id="the-linear-phenotypic-eigen-selection-index-method-esim" class="section level2">
+<h2>1. The Linear Phenotypic Eigen Selection Index Method (ESIM)</h2>
+<p>The theoretical selection response of the ESIM can be written as:</p>
+<p><span class="math display">\[ R_I = k_I \sigma_H \rho_{HI}, \quad
+(7.1) \]</span></p>
+<p>where <span class="math inline">\(k_I\)</span> is the selection
+intensity, <span class="math inline">\(\sigma_H\)</span> is the standard
+deviation of the genetic merit, and <span class="math inline">\(\rho_{HI}\)</span> is the correlation between the
+trait index and the unobservable genetic merit.</p>
+<p>To maximize the index selection response without pre-defined economic
+weights, ESIM translates the index estimation into a generalized
+eigenvalue problem:</p>
+<p><span class="math display">\[ (\mathbf{P}^{-1} \mathbf{C} -
+\lambda^2_E \mathbf{I}) \mathbf{b}_E = \mathbf{0}, \quad (7.10)
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{P}^{-1} \mathbf{C}\)</span>
+is the multi-trait heritability matrix. The optimal ESIM vector of
+coefficients <span class="math inline">\(\mathbf{b}_E\)</span> is the
+first eigenvector of <span class="math inline">\(\mathbf{P}^{-1}
+\mathbf{C}\)</span>, and its accuracy is the square root of the first
+eigenvalue (<span class="math inline">\(\lambda_E\)</span>).</p>
+<p>The maximized ESIM selection response can then be written as:</p>
+<p><span class="math display">\[ R_E = k_I \sqrt{ \mathbf{b}&#39;_E
+\mathbf{P} \mathbf{b}_E } \quad (7.15) \]</span></p>
+<div id="practical-application-esim" class="section level3">
+<h3>Practical Application: ESIM</h3>
+<p>In the package, <code>esim</code> maximizes the genetic response
+without pre-defined weights for <code>pmat</code> and
+<code>gmat</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Compute the linear phenotypic eigen selection index</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>esim_res <span class="ot">&lt;-</span> <span class="fu">esim</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">selection_intensity =</span> <span class="fl">2.063</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># View the summary</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">print</span>(esim_res<span class="sc">$</span>summary)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;   Index  lambda2      hI2      rHI  sigma_I Delta_G      b.1      b.2      b.3</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 1     1 1771.794 1771.794 42.09268 3.286805 6.78068 0.002336 0.009329 0.999954</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># View expected genetic gains per trait (Delta_G)</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">print</span>(esim_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;      700636.74       18363.40       10206.29</span></span></code></pre></div>
+</div>
+</div>
+<div id="the-restricted-eigen-selection-index-method-resim" class="section level2">
+<h2>2. The Restricted Eigen Selection Index Method (RESIM)</h2>
+<p>Similar to the RLPSI, the RESIM fixes certain traits so that their
+expected genetic gain remains null (zero). Instead of modifying known
+economic weights under restrictions, RESIM computes the restricted
+eigenvalues natively.</p>
+<p>When an orthogonal set of restrictions <span class="math inline">\(\mathbf{U}&#39;\)</span> is imposed, the optimized
+eigenvalue equation becomes:</p>
+<p><span class="math display">\[ (\mathbf{K} \mathbf{P}^{-1} \mathbf{C}
+- \lambda^2_R \mathbf{I}_t) \mathbf{b}_R = \mathbf{0}. \quad (7.31)
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{K} = [\mathbf{I} -
+\mathbf{Q}]\)</span>, <span class="math inline">\(\mathbf{Q} =
+\mathbf{P}^{-1}\mathbf{C}\mathbf{U}(\mathbf{U}&#39;\mathbf{C}\mathbf{P}^{-1}\mathbf{C}\mathbf{U})^{-1}\mathbf{U}&#39;\mathbf{C}\)</span>.
+The vector <span class="math inline">\(\mathbf{b}_R\)</span> is the
+restriction-corrected eigenvector.</p>
+<div id="practical-application-resim" class="section level3">
+<h3>Practical Application: RESIM</h3>
+<p>We use <code>resim</code> and restrict <code>PlantHeight</code>
+(trait #2) to have strictly zero expected genetic gain.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># We restrict PlantHeight (the second trait in our data frame)</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>resim_res <span class="ot">&lt;-</span> <span class="fu">resim</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">restricted_traits =</span> <span class="fu">c</span>(<span class="dv">2</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">selection_intensity =</span> <span class="fl">2.063</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Expected genetic gains per trait</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">print</span>(resim_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  -1.057494e+02  -2.601670e-08  -2.276986e+00</span></span></code></pre></div>
+<p>Notice that the expected genetic gain for our restricted trait is
+mathematically forced to zero.</p>
+</div>
+</div>
+<div id="the-predetermined-proportional-gain-esim-ppg-esim" class="section level2">
+<h2>3. The Predetermined Proportional Gain ESIM (PPG-ESIM)</h2>
+<p>Instead of null gains, the PPG-ESIM allows the breeder to pre-set
+optimal levels of growth proportion on specific traits while maintaining
+the eigen maximization properties on the non-restricted traits.</p>
+<p>This changes the eigen mapping matrix using the proportional
+restrictions Mallard operator <span class="math inline">\(\mathbf{M}&#39;\)</span>:</p>
+<p><span class="math display">\[ (\mathbf{K}_P \mathbf{P}^{-1}
+\mathbf{C} - \lambda^2_P \mathbf{I}_t) \mathbf{b}_P = \mathbf{0}, \quad
+(7.43) \]</span></p>
+<p>where <span class="math inline">\(\mathbf{K}_P\)</span> is derived
+from the predetermined proportional vector parameter <span class="math inline">\(\mathbf{d}\)</span>.</p>
+<div id="practical-application-ppg-esim" class="section level3">
+<h3>Practical Application: PPG-ESIM</h3>
+<p>Let’s assume we want a strict <span class="math inline">\(5\%\)</span> gain in PlantHeight and a <span class="math inline">\(10\%\)</span> reduction in DaysToMaturity
+proportionately compared to Yield.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Provide the vector d of desired predetermined proportional gains</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># The indices represent non-zero targets. For exactly corresponding target magnitudes, we provide d.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>d_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="sc">-</span><span class="dv">1</span>) <span class="co"># e.g. proportional mapping</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># We use the ppg_esim function</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>ppgesim_res <span class="ot">&lt;-</span> <span class="fu">ppg_esim</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">d =</span> d_vector,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">selection_intensity =</span> <span class="fl">2.063</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># View the proportionality of the genetic gains</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">print</span>(ppgesim_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;    -1740.88315      -45.79459      -25.02449</span></span></code></pre></div>
+<p>Through this mechanism, breeders manipulate genetic covariance paths
+analytically accurately.</p>
+</div>
+</div>
+<div id="statistical-properties-of-eigen-selection-indices" class="section level2">
+<h2>4. Statistical Properties of Eigen Selection Indices</h2>
+<div id="variance-of-predicted-error-vpe" class="section level3">
+<h3>Variance of Predicted Error (VPE)</h3>
+<p>The precision of the index in predicting the net genetic merit is
+evaluated by its Variance of Predicted Error:</p>
+<p><span class="math display">\[ VPE(I_E) = \sigma^2_{H_E} -
+\sigma^2_{I_E} \quad (7.19) \]</span></p>
+<p>The relative mean squared effect of <span class="math inline">\(I_E\)</span> in predicting <span class="math inline">\(H_E\)</span> is equivalent to its reliability:</p>
+<p><span class="math display">\[ \frac{Var(H_E) - VPE(I_E)}{Var(H_E)} =
+\rho^2_{H_E I_E} \quad (7.20) \]</span></p>
+<p>where <span class="math inline">\(\rho^2_{H_E I_E}\)</span> is the
+squared accuracy of the eigen index.</p>
+</div>
+<div id="canonical-correlation-connection" class="section level3">
+<h3>Canonical Correlation Connection</h3>
+<p>The ESIM optimization maps directly to Canonical Correlation Theory
+(Hotelling 1936). The objective is to find a linear combination of
+traits having maximal correlation with the net genetic merit. In the
+ESIM context, <span class="math inline">\(\mathbf{b}_E\)</span> is
+exactly the first canonical vector of the matrix <span class="math inline">\(\mathbf{P}^{-1}\mathbf{C}\)</span>, and its
+associated accuracy represents the highest achievable canonical
+correlation between the phenotypic indices and the genotypic values.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

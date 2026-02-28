@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Multistage Phenotypic Selection Indices</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Multistage Phenotypic Selection
+Indices</h1>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In crop and animal breeding programs, selection is rarely performed
+in a single stage. Breeders usually evaluate multiple traits across
+different stages of testing, successively discarding inferior genotypes
+and advancing superior ones. This multistage approach requires selection
+indices to account for the changes in variances and covariances induced
+by selection at prior stages.</p>
+<p>Chapter 9 of the <code>selection.index</code> package focuses on the
+mathematical formulation and practical application of Multistage Linear
+Selection Indices. We introduce indices that properly adjust for prior
+selection using the Cochran (1951) and Cunningham (1975) method,
+calculating corrected covariance matrices to appropriately predict
+subsequent selection responses. This vignette will demonstrate six
+multistage indices utilizing phenotypic and genomic estimated breeding
+values (GEBVs).</p>
+<p>We will use the synthetic maize phenotypic and genotypic datasets
+(<code>maize_pheno</code> and <code>maize_geno</code>) to illustrate
+these complex functions. Let us first prepare the covariance
+matrices.</p>
+<div id="data-preparation" class="section level2">
+<h2>Data Preparation</h2>
+<p>For our examples, we will evaluate 3 quantitative traits from the
+dataset: Yield, PlantHeight, and DaysToMaturity. We assume that Stage 1
+selection evaluates the first two traits (Yield, PlantHeight), and Stage
+2 evaluates all 3 traits (adding DaysToMaturity).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(selection.index)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Estimate phenotypic and genotypic covariance matrices for the 3 traits</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># The traits are Yield, PlantHeight, DaysToMaturity</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Yield&quot;</span>, <span class="st">&quot;PlantHeight&quot;</span>, <span class="st">&quot;DaysToMaturity&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>pmat <span class="ot">&lt;-</span> <span class="fu">phen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Environment, maize_pheno<span class="sc">$</span>Genotype)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>gmat <span class="ot">&lt;-</span> <span class="fu">gen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Environment, maize_pheno<span class="sc">$</span>Genotype)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Matrix limits for Stage 1 (Traits 1 to 2)</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> pmat[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>G1 <span class="ot">&lt;-</span> gmat[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Complete Matrices for Stage 2</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>P <span class="ot">&lt;-</span> pmat</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>C <span class="ot">&lt;-</span> gmat</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Economic weights for the 3 traits</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="multistage-linear-phenotypic-selection-index-mlpsi" class="section level1">
+<h1>1. Multistage Linear Phenotypic Selection Index (MLPSI)</h1>
+<p>The Multistage Linear Phenotypic Selection Index accounts for changes
+in phenotypic (<span class="math inline">\(\mathbf{P}\)</span>) and
+genotypic (<span class="math inline">\(\mathbf{C}\)</span>) covariance
+matrices due to previous selection cycles.</p>
+<p>At Stage 1, the index coefficients are computed just as in the
+standard Smith-Hazel index: <span class="math display">\[ \mathbf{b}_1 =
+\mathbf{P}_1^{-1}\mathbf{G}_1\mathbf{w}_1 \]</span> where <span class="math inline">\(\mathbf{w}_1\)</span> contains the economic
+weights for Stage 1 traits.</p>
+<p>At Stage 2, the coefficients for the entire set of traits are: <span class="math display">\[ \mathbf{b}_2 =
+\mathbf{P}^{-1}\mathbf{C}\mathbf{w} \]</span></p>
+<p>However, due to selection at stage 1, the covariances <span class="math inline">\(\mathbf{P}\)</span> and <span class="math inline">\(\mathbf{C}\)</span> are adjusted for stage 2
+evaluation: <span class="math display">\[ \mathbf{P}^* = \mathbf{P} - u
+\frac{Cov(\mathbf{y},\mathbf{x}_1)\mathbf{b}_1\mathbf{b}_1&#39;Cov(\mathbf{x}_1,\mathbf{y})}{\mathbf{b}_1&#39;\mathbf{P}_1\mathbf{b}_1}
+\]</span> <span class="math display">\[ \mathbf{C}^* = \mathbf{C} - u
+\frac{\mathbf{G}_1&#39;\mathbf{b}_1\mathbf{b}_1&#39;\mathbf{G}_1}{\mathbf{b}_1&#39;\mathbf{P}_1\mathbf{b}_1}
+\]</span> where <span class="math inline">\(u = k_1(k_1 - \tau)\)</span>
+calculates the effect of selection based on the standardized truncation
+point <span class="math inline">\(\tau\)</span> and selection intensity
+<span class="math inline">\(k_1\)</span>.</p>
+<p>The function <code>mlpsi</code> simultaneously performs adjustments
+and metric estimations for both stages.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># We apply a selection proportion of 10% (0.10) per stage.</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>mlpsi_res <span class="ot">&lt;-</span> <span class="fu">mlpsi</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">P1 =</span> P1, <span class="at">P =</span> P, <span class="at">G1 =</span> G1, <span class="at">C =</span> C,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; Warning in .index_correlation(b1, b2, P1, P, stage1_indices): Invalid variance</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; for correlation calculation.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_phenotypic_matrix(P, P1, b1, k1, tau, stage1_indices):</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_genotypic_matrix(C, G1, b1, k1, tau, P1, stage1_indices):</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># Stage 1 metrics</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>mlpsi_res<span class="sc">$</span>summary_stage1</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;   Stage       Trait             b  E</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 1     1       Yield -527740915826 NA</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; 2     1 PlantHeight 4066491692882 NA</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># Stage 2 metrics</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>mlpsi_res<span class="sc">$</span>summary_stage2</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt;   Stage          Trait             b         E</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; 1     2          Yield -1.167617e+12 857097221</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; 2     2    PlantHeight  1.254688e+13  22420339</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 3     2 DaysToMaturity  7.244343e+13  12421006</span></span></code></pre></div>
+<hr />
+</div>
+<div id="multistage-restricted-linear-phenotypic-selection-index-mrlpsi" class="section level1">
+<h1>2. Multistage Restricted Linear Phenotypic Selection Index
+(MRLPSI)</h1>
+<p>The MRLPSI method applies when the breeder aims to maintain one or
+more quantitative traits without change over the multistage evaluation
+(e.g., maintaining constant <code>PlantHeight</code> while optimizing
+other variables).</p>
+<p>The restricted coefficient vectors for Stage 1 and Stage 2 are
+defined as: <span class="math display">\[ \mathbf{b}_{R_1} =
+\mathbf{K}_1 \mathbf{b}_1 \]</span> <span class="math display">\[
+\mathbf{b}_{R_2} = \mathbf{K}_2 \mathbf{b}_2 \]</span></p>
+<p>Where <span class="math inline">\(\mathbf{K}_1 = \mathbf{I}_1 -
+\mathbf{Q}_1\)</span> and <span class="math inline">\(\mathbf{K}_2 =
+\mathbf{I}_2 - \mathbf{Q}_2\)</span> are matrices that impose zero
+genetic gain vectors, derived from the constraint matrices <span class="math inline">\(\mathbf{C}_1\)</span> and <span class="math inline">\(\mathbf{C}_2\)</span>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># We constrain PlantHeight (Trait 2) at Stage 1</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>C1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>C1[<span class="dv">2</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># We constrain PlantHeight (Trait 2) at Stage 2</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>C2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>C2[<span class="dv">2</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>mrlpsi_res <span class="ot">&lt;-</span> <span class="fu">mrlpsi</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">P1 =</span> P1, <span class="at">P =</span> P, <span class="at">G1 =</span> G1, <span class="at">C =</span> C,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">C1 =</span> C1, <span class="at">C2 =</span> C2,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; Warning in .index_correlation(b_R1, b_R2, P1, P, stage1_indices): Invalid</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; variance for correlation calculation.</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_phenotypic_matrix(P, P1, b_R1, k1, tau, stage1_indices):</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_genotypic_matrix(C, G1, b_R1, k1, tau, P1, stage1_indices):</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co"># Observe that Expected Gain (E) for PlantHeight is approximately 0</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>mrlpsi_res<span class="sc">$</span>summary_stage1</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;   Stage       Trait           b_R  E</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; 1     1       Yield -529172810900 NA</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; 2     1 PlantHeight 4077525117142 NA</span></span></code></pre></div>
+<hr />
+</div>
+<div id="multistage-predetermined-proportional-gain-lpsi-mppg-lpsi" class="section level1">
+<h1>3. Multistage Predetermined Proportional Gain LPSI (MPPG-LPSI)</h1>
+<p>Unlike MRLPSI which imposes zero genetic gain bounds, MPPG-LPSI
+forces proportional changes mapped by the <span class="math inline">\(\mathbf{d}_1\)</span> and <span class="math inline">\(\mathbf{d}_2\)</span> restricted-difference
+vectors. At Stage <span class="math inline">\(i\)</span>, the difference
+vector creates an updated target trajectory.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Target specific proportional gains</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>) <span class="co"># Yield gains twice as much as PlantHeight at stage 1</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">0.5</span>) <span class="co"># Desired proportions at stage 2</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>mppg_res <span class="ot">&lt;-</span> <span class="fu">mppg_lpsi</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">P1 =</span> P1, <span class="at">P =</span> P, <span class="at">G1 =</span> G1, <span class="at">C =</span> C,</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">d1 =</span> d1, <span class="at">d2 =</span> d2,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; Warning in .index_correlation(b_M1, b_M2, P1, P, stage1_indices): Invalid</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; variance for correlation calculation.</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_phenotypic_matrix(P, P1, b_M1, k1, tau, stage1_indices):</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; Warning in .adjust_genotypic_matrix(C, G1, b_M1, k1, tau, P1, stage1_indices):</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; Invalid variance at stage 1 (b1&#39;P1b1 &lt;= 0). Returning unadjusted matrix.</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co"># Observe the Expected Gain (E) in the resulting summary stats aligns with d1 proportions</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>mppg_res<span class="sc">$</span>summary_stage1</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;   Stage       Trait           b_M d  E Ratio</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 1     1       Yield -522178847351 2 NA    NA</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 2     1 PlantHeight 4023633342185 1 NA    NA</span></span></code></pre></div>
+<hr />
+</div>
+<div id="multistage-linear-genomic-selection-index-mlgsi" class="section level1">
+<h1>4. Multistage Linear Genomic Selection Index (MLGSI)</h1>
+<p>In modern breeding, Genomic Estimated Breeding Values (GEBVs)
+computed from whole-genome markers accelerate cyclical selection. For
+the Multi-Stage Genomic framework, we replace phenotypic estimators with
+GEBV matrix derivations: <span class="math inline">\(\mathbf{\Gamma}\)</span> (GEBV
+variance-covariance) replaces <span class="math inline">\(\mathbf{P}\)</span>. <span class="math inline">\(\mathbf{A}\)</span> (Covariance between GEBVs and
+true BVs) provides genomic mappings.</p>
+<p>For illustrative purposes, we mock simulate the arrays via a
+pseudo-reliability scaling of the genetic matrices:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>reliability <span class="ot">&lt;-</span> <span class="fl">0.7</span> <span class="co"># Simulated genomic prediction reliability</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>Gamma1 <span class="ot">&lt;-</span> reliability <span class="sc">*</span> G1</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>Gamma <span class="ot">&lt;-</span> reliability <span class="sc">*</span> C</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>A1 <span class="ot">&lt;-</span> reliability <span class="sc">*</span> G1</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>A <span class="ot">&lt;-</span> C[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="co"># n x n1 covariance mapping</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>mlgsi_res <span class="ot">&lt;-</span> <span class="fu">mlgsi</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">Gamma1 =</span> Gamma1, <span class="at">Gamma =</span> Gamma, <span class="at">A1 =</span> A1, <span class="at">A =</span> A,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">C =</span> C, <span class="at">G1 =</span> G1, <span class="at">P1 =</span> P1,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; Warning in mlgsi(Gamma1 = Gamma1, Gamma = Gamma, A1 = A1, A = A, C = C, :</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; Invalid phenotypic variance at stage 1. Using unadjusted C.</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>mlgsi_res<span class="sc">$</span>summary_stage1</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;   Stage       Trait beta         E</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; 1     1       Yield   10 4822.1921</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; 2     1 PlantHeight   -5  126.4395</span></span></code></pre></div>
+<hr />
+</div>
+<div id="multistage-restricted-genomic-selection-index-mrlgsi" class="section level1">
+<h1>5. Multistage Restricted Genomic Selection Index (MRLGSI)</h1>
+<p>Similarly, traits can be biologically constrained in multiple
+genome-assisted breeding cycles.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>mrlgsi_res <span class="ot">&lt;-</span> <span class="fu">mrlgsi</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">Gamma1 =</span> Gamma1, <span class="at">Gamma =</span> Gamma, <span class="at">A1 =</span> A1, <span class="at">A =</span> A,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">C =</span> C, <span class="at">G1 =</span> G1, <span class="at">P1 =</span> P1,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">C1 =</span> C1, <span class="at">C2 =</span> C2,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>mrlgsi_res<span class="sc">$</span>summary_stage2</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;   Stage          Trait    beta_R  E</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 1     2          Yield   10.0000 NA</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; 2     2    PlantHeight -380.2161 NA</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; 3     2 DaysToMaturity   -2.0000 NA</span></span></code></pre></div>
+<hr />
+</div>
+<div id="multistage-ppg-genomic-selection-index-mppg-lgsi" class="section level1">
+<h1>6. Multistage PPG Genomic Selection Index (MPPG-LGSI)</h1>
+<p>The procedure calculates predetermined gains over multiple cycles
+exclusively utilizing whole-genome predictions.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>mppg_lgsi_res <span class="ot">&lt;-</span> <span class="fu">mppg_lgsi</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">Gamma1 =</span> Gamma1, <span class="at">Gamma =</span> Gamma, <span class="at">A1 =</span> A1, <span class="at">A =</span> A,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">C =</span> C, <span class="at">G1 =</span> G1, <span class="at">P1 =</span> P1,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">wmat =</span> weights,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">d1 =</span> d1, <span class="at">d2 =</span> d2,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">selection_proportion =</span> <span class="fl">0.1</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Warning in mppg_lgsi(Gamma1 = Gamma1, Gamma = Gamma, A1 = A1, A = A, C = C, :</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Invalid phenotypic variance at stage 1. Using unadjusted C.</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>mppg_lgsi_res<span class="sc">$</span>summary_stage1</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;   Stage       Trait  beta_P d      E  Ratio</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; 1     1       Yield -0.4151 2 3.2116 1.6058</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 2     1 PlantHeight 15.8301 1 1.6058 1.6058</span></span></code></pre></div>
+</div>
+<div id="statistical-properties" class="section level1">
+<h1>Statistical Properties</h1>
+<p>For all the multistage indices above (Phenotypic and Genomic), we
+evaluate statistical properties to compare efficiency.</p>
+<div id="accuracy" class="section level3">
+<h3>Accuracy</h3>
+<p>The accuracy (or correlation between the index and true breeding
+value) indicates the efficiency of the index: <span class="math display">\[ \rho_{H} = \frac{\sigma_{H, I}}{\sigma_H
+\sigma_I} = \sqrt{
+\frac{\mathbf{b}&#39;\mathbf{P}\mathbf{b}}{\mathbf{w}&#39;\mathbf{C}\mathbf{w}}
+} \]</span> where <span class="math inline">\(\mathbf{P}\)</span> and
+<span class="math inline">\(\mathbf{C}\)</span> are substituted by their
+adjusted equivalents at Stage 2 (<span class="math inline">\(\mathbf{P}^*\)</span> and <span class="math inline">\(\mathbf{C}^*\)</span> or <span class="math inline">\(\mathbf{\Gamma}^*\)</span>).</p>
+</div>
+<div id="selection-response" class="section level3">
+<h3>Selection Response</h3>
+<p>The overall selection response generated by the index evaluates the
+genetic superiority: <span class="math display">\[ R = k \sigma_{I} = k
+\sqrt{\mathbf{b}&#39;\mathbf{P}\mathbf{b}} \]</span> where <span class="math inline">\(k\)</span> is the selection intensity.</p>
+</div>
+<div id="expected-genetic-gain" class="section level3">
+<h3>Expected Genetic Gain</h3>
+<p>The expected genetic gain per individual trait is given by the
+vector: <span class="math display">\[ \mathbf{E} = k
+\frac{\mathbf{G}&#39;\mathbf{b}}{\sigma_I} = k
+\frac{\mathbf{G}&#39;\mathbf{b}}{\sqrt{\mathbf{b}&#39;\mathbf{P}\mathbf{b}}}
+\]</span> For the Multistage Genomic Indices, <span class="math inline">\(\mathbf{G}&#39;\)</span> is replaced by the marker
+association mapping matrix <span class="math inline">\(\mathbf{A}&#39;\)</span>.</p>
+<hr />
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>Multistage Selection Indices effectively manage breeding resources by
+filtering inferior variants sequentially while accurately recalibrating
+covariance parameters using genomic and phenotypic variables across
+progressive evaluations. These analytical tools prevent severe variance
+distortion over breeding cycles.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Constrained Linear Phenotypic Selection Indices</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Constrained Linear Phenotypic Selection
+Indices</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The linear phenotypic selection index (LPSI), the null restricted
+LPSI (RLPSI), and the predetermined proportional gains LPSI (PPG-LPSI)
+are the main phenotypic selection indices used to predict the net
+genetic merit and select parents for the next selection cycle. The LPSI
+is an unrestricted index, whereas the RLPSI and the PPG-LPSI allow
+restrictions equal to zero and predetermined proportional gain
+restrictions respectively to be imposed on the expected genetic gain
+values of the trait.</p>
+<p>One additional restricted index is the desired gains LPSI (DG-LPSI),
+which does not require economic weights and, in a similar manner to the
+PPG-LPSI, allows restrictions to be imposed on the expected genetic gain
+values of the trait based on a predetermined level.</p>
+<p>In this vignette, we demonstrate the theory and practical application
+of RLPSI, PPG-LPSI, and DG-LPSI using the <code>selection.index</code>
+package.</p>
+<div id="sample-data-preparation" class="section level3">
+<h3>Sample Data Preparation</h3>
+<p>We use the synthetic <code>maize_pheno</code> dataset built into the
+package to calculate the phenotypic and genotypic variance-covariance
+matrices.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(selection.index)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Load the built-in maize phenotype dataset</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;maize_pheno&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># Extract the traits of interest</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Yield&quot;</span>, <span class="st">&quot;PlantHeight&quot;</span>, <span class="st">&quot;DaysToMaturity&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co"># Calculate Genotypic (gmat) and Phenotypic (pmat) covariance matrices</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>gmat <span class="ot">&lt;-</span> <span class="fu">gen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Genotype, maize_pheno<span class="sc">$</span>Block)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>pmat <span class="ot">&lt;-</span> <span class="fu">phen_varcov</span>(maize_pheno[, traits], maize_pheno<span class="sc">$</span>Genotype, maize_pheno<span class="sc">$</span>Block)</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Define economic weights for the three traits</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>wmat <span class="ot">&lt;-</span> <span class="fu">weight_mat</span>(<span class="fu">data.frame</span>(<span class="at">Trait =</span> traits, <span class="at">Weight =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
+</div>
+</div>
+<div id="the-null-restricted-linear-phenotypic-selection-index-rlpsi" class="section level2">
+<h2>1. The Null Restricted Linear Phenotypic Selection Index
+(RLPSI)</h2>
+<p>The main objective of the RLPSI is to optimize, under some null
+restrictions, the selection response, to predict the net genetic merit
+<span class="math inline">\(H = \mathbf{w}&#39;\mathbf{g}\)</span>, and
+to select the individuals with the highest net genetic merit values as
+parents of the next generation. The RLPSI allows restrictions equal to
+zero to be imposed on the expected genetic gains of some traits.</p>
+<p>Assuming we want to minimize the mean squared difference between the
+index <span class="math inline">\(I\)</span> and merit <span class="math inline">\(H\)</span> (<span class="math inline">\(E[(H -
+I)^2]\)</span>) under the restriction <span class="math inline">\(\mathbf{C}&#39;\mathbf{b} = \mathbf{0}\)</span>,
+we minimize the following function:</p>
+<p><span class="math display">\[ \Psi
+\left(\mathbf{b},\mathbf{v}\right)={\mathbf{b}}^{\prime}\mathbf{Pb}+{\mathbf{w}}^{\prime}\mathbf{Gw}-2{\mathbf{w}}^{\prime}\mathbf{Gb}+2{\mathbf{v}}^{\prime
+}{\mathbf{C}}^{\prime}\mathbf{b} \]</span></p>
+<p>where <span class="math inline">\(\mathbf{C}&#39; =
+\mathbf{U}&#39;\mathbf{G}\)</span>, <span class="math inline">\(\mathbf{U}&#39;\)</span> is the matrix of null
+restrictions, and <span class="math inline">\(\mathbf{v}\)</span> is a
+vector of Lagrange multipliers. The solution yields the RLPSI vector of
+coefficients:</p>
+<p><span class="math display">\[ {\mathbf{b}}_R=\mathbf{Kb}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{K} = [\mathbf{I} -
+\mathbf{Q}]\)</span>, <span class="math inline">\(\mathbf{Q} =
+\mathbf{P}^{-1}\mathbf{C}(\mathbf{C}&#39;\mathbf{P}^{-1}\mathbf{C})^{-1}\mathbf{C}&#39;\)</span>,
+and <span class="math inline">\(\mathbf{b} =
+\mathbf{P}^{-1}\mathbf{Gw}\)</span> is the LPSI vector of
+coefficients.</p>
+<div id="practical-application-rlpsi" class="section level3">
+<h3>Practical Application: RLPSI</h3>
+<p>Using the <code>rlpsi</code> function, we can constrain the genetic
+gain of certain traits to be strictly zero. For instance, we may want to
+maximize overall gain while ensuring that Plant Height (trait #2) does
+not change.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Restrict trait 2 (PHT) to have ZERO expected genetic gain</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>rlpsi_res <span class="ot">&lt;-</span> <span class="fu">rlpsi</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">pmat =</span> pmat,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">gmat =</span> gmat,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">wmat =</span> wmat,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">restricted_traits =</span> <span class="fu">c</span>(<span class="dv">2</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># View the summary and coefficients</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">print</span>(rlpsi_res<span class="sc">$</span>summary)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;      b.1     b.2    b.3       GA      PRE  Delta_G    rHI    hI2</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 1 0.0551 -3.3075 2.1743 108.2417 10824.17 108.2417 0.3153 0.0994</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># View the expected genetic gains (Delta_G)</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">print</span>(rlpsi_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;   1.059783e+02  -1.709497e-08   2.263426e+00</span></span></code></pre></div>
+<p>Notice that the expected genetic gain (<code>Delta_G</code>) for the
+2nd trait is effectively zero.</p>
+</div>
+</div>
+<div id="the-predetermined-proportional-gains-linear-phenotypic-selection-index-ppg-lpsi" class="section level2">
+<h2>2. The Predetermined Proportional Gains Linear Phenotypic Selection
+Index (PPG-LPSI)</h2>
+<p>Unlike the RLPSI, the predetermined proportional gains phenotypic
+selection index (PPG-LPSI) allows restrictions <em>different from
+zero</em> to be imposed, ensuring that traits gain in strictly
+predefined proportions to each other.</p>
+<p>Minimizing <span class="math inline">\(E[(H - I)^2]\)</span> under
+the proportional restriction <span class="math inline">\(\mathbf{M}&#39;\mathbf{b} = 0\)</span>, where
+<span class="math inline">\(\mathbf{M}&#39; =
+\mathbf{D}&#39;\mathbf{C}&#39;\)</span> and <span class="math inline">\(\mathbf{D}&#39;\)</span> is a Mallard (1972)
+matrix, leads to:</p>
+<p><span class="math display">\[ \Phi
+\left(\mathbf{b},\mathbf{v}\right)={\mathbf{b}}^{\prime}\mathbf{Pb}+{\mathbf{w}}^{\prime}\mathbf{Gw}-2{\mathbf{w}}^{\prime}\mathbf{Gb}+2{\mathbf{v}}^{\prime
+}{\mathbf{M}}^{\prime}\mathbf{b} \]</span></p>
+<p>The vector that minimizes the mean squared error under this
+restriction is:</p>
+<p><span class="math display">\[ {\mathbf{b}}_M={\mathbf{K}}_M\mathbf{b}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{K}_M = [\mathbf{I} -
+\mathbf{Q}_M]\)</span> and <span class="math inline">\(\mathbf{Q}_M =
+\mathbf{P}^{-1}\mathbf{M}(\mathbf{M}&#39;\mathbf{P}^{-1}\mathbf{M})^{-1}\mathbf{M}&#39;\)</span>.
+Alternatively, Tallis (1985) formulated it using a proportionality
+constant <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+{\mathbf{b}}_{\mathrm{T}}={\mathbf{b}}_R+\uptheta \boldsymbol{\updelta}
+\]</span></p>
+<div id="practical-application-ppg-lpsi" class="section level3">
+<h3>Practical Application: PPG-LPSI</h3>
+<p>The <code>ppg_lpsi</code> function enforces these desired
+proportional gains. Suppose we want the gains across the three traits to
+follow the proportion <code>2 : 1 : 1</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Specify the desired proportions</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>k_proportions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Calculate the PPG-LPSI</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>ppg_res <span class="ot">&lt;-</span> <span class="fu">ppg_lpsi</span>(<span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">k =</span> k_proportions, <span class="at">wmat =</span> wmat)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># View the expected genetic gains</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">print</span>(ppg_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;      700636.74       18363.40       10206.29</span></span></code></pre></div>
+<p>If we observe the resulting <code>Delta_G</code> values, their
+relative proportions should approximate the <code>2 : 1 : 1</code> ratio
+dictated by <code>k</code>.</p>
+</div>
+</div>
+<div id="the-desired-gains-linear-phenotypic-selection-index-dg-lpsi" class="section level2">
+<h2>3. The Desired Gains Linear Phenotypic Selection Index
+(DG-LPSI)</h2>
+<p>The desired gains linear phenotypic selection index (DG-LPSI) is
+unique in that it <em>does not require economic weights</em> <span class="math inline">\(\mathbf{w}\)</span>. Instead, the breeder
+specifies the exact desired target genetic gains <span class="math inline">\(\mathbf{d}\)</span> directly.</p>
+<p>Because the expected genetic gain is <span class="math inline">\(\mathbf{E} = k_I
+\frac{\mathbf{Gb}}{\sigma_I}\)</span>, if we set <span class="math inline">\(\mathbf{Gb} = \mathbf{d}\)</span>, then we want to
+minimize the variance of the index <span class="math inline">\(\sigma_I\)</span> subject to <span class="math inline">\(\mathbf{Gb} = \mathbf{d}\)</span> to maximize
+<span class="math inline">\(\mathbf{E}\)</span>:</p>
+<p><span class="math display">\[
+{\Phi}_{DG}\left(\mathbf{b},\mathbf{v}\right)=\mathbf{0.5}\left({\mathbf{b}}^{\prime}\mathbf{Pb}\right)+{\mathbf{v}}^{\prime}\left(\mathbf{Gb}-\mathbf{d}\right)
+\]</span></p>
+<p>Solving this yields the DG-LPSI vector of coefficients:</p>
+<p><span class="math display">\[
+{\mathbf{b}}_{DG}={\mathbf{P}}^{-1}\mathbf{G}{\left({\mathbf{GP}}^{-1}\mathbf{G}\right)}^{-1}\mathbf{d}
+\]</span></p>
+<div id="practical-application-dg-lpsi" class="section level3">
+<h3>Practical Application: DG-LPSI</h3>
+<p>We can run the <code>dg_lpsi</code> function solely based on desired
+absolute gains. Let’s aim to increase Yield by 5 units, decrease Plant
+Height by 2 units, and increase Days to Maturity by 1 unit.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Explicit vector of desired absolute genetic gains</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>desired_gains <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Calculate DG-LPSI</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>dg_res <span class="ot">&lt;-</span> <span class="fu">dg_lpsi</span>(<span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">d =</span> desired_gains)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># Check the achieved proportional genetic gains</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">print</span>(dg_res<span class="sc">$</span>Delta_G)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;      3.3431312     -1.3372525      0.6686262</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># The DG-LPSI also calculates implied Smith-Hazel economic weights</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">print</span>(dg_res<span class="sc">$</span>implied_weights_normalized)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;    -0.01969999     0.19583750     1.00000000</span></span></code></pre></div>
+<p>The output gives us the selection index coefficients <span class="math inline">\(\mathbf{b}\)</span> that would achieve the target
+gains, as well as the implied economic weights showing the “absolute
+cost” or relative importance required to achieve those gains.</p>
+</div>
+</div>
+<div id="advanced-concepts-and-trade-offs" class="section level2">
+<h2>4. Advanced Concepts and Trade-offs</h2>
+<div id="statistical-properties-and-efficiency-trade-offs" class="section level3">
+<h3>4.1 Statistical Properties and Efficiency Trade-offs</h3>
+<p>Imposing restrictions on an index inherently limits its potential to
+maximize the overall selection response <span class="math inline">\(R_R\)</span>. The <code>selection.index</code>
+package allows you to evaluate this “cost of restriction” by calculating
+both the relative selection efficiency (<code>PRE</code> - Percentage of
+Response Efficiency) and the heritability (<code>hI2</code>) of the
+constrained index versus the unconstrained equivalent.</p>
+<p>When reviewing the <code>summary</code> data frame output of our
+indices above: - <strong><code>rHI</code></strong>: The correlation
+between the constrained index and the true net genetic merit (<span class="math inline">\(H\)</span>). As more restrictions are added, this
+correlation decreases. - <strong><code>PRE</code></strong>: Shows the
+expected genetic advance relative to a base index. Constrained indices
+will universally show lower <code>PRE</code> than their unconstrained
+LPSI counterpart.</p>
+</div>
+<div id="manual-constraint-matrix-construction" class="section level3">
+<h3>4.2 Manual Constraint Matrix Construction</h3>
+<p>By default, <code>rlpsi()</code> and <code>ppg_lpsi()</code> accept
+user-friendly arguments like <code>restricted_traits = c(2)</code> or
+<code>k = c(2, 1, 1)</code> to automatically construct the mathematical
+constraint matrices behind the scenes.</p>
+<p>However, advanced users may wish to manually define these matrices,
+particularly for complex scenarios.</p>
+<p>For the <strong>RLPSI</strong>, the constraint matrix <span class="math inline">\(\mathbf{C}\)</span> is a <span class="math inline">\(t \times r\)</span> matrix (where <span class="math inline">\(t\)</span> is the number of traits and <span class="math inline">\(r\)</span> is the number of restrictions). Each
+column represents a restricted trait with a <code>1</code> at the
+restricted index and <code>0</code>s elsewhere:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Manually restrict traits #1 and #3:</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Create a 3x2 constraint matrix</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>C_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="co"># Restrict trait 1</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  ), <span class="co"># Restrict trait 3</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co"># Pass directly to RLPSI</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>rlpsi_manual <span class="ot">&lt;-</span> <span class="fu">rlpsi</span>(<span class="at">pmat =</span> pmat, <span class="at">gmat =</span> gmat, <span class="at">wmat =</span> wmat, <span class="at">C =</span> C_matrix)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">print</span>(rlpsi_manual<span class="sc">$</span>Delta_G)</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;          Yield    PlantHeight DaysToMaturity </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;    -0.01072495    -2.76848253     0.74035593</span></span></code></pre></div>
+<p>The <code>ppg_lpsi()</code> function automatically manages the
+complex proportional constraint matrix based on your inputs <span class="math inline">\(\mathbf{k}\)</span>, guaranteeing the proportional
+relationship <span class="math inline">\(\Delta \mathbf{G} =
+\phi\mathbf{k}\)</span>.</p>
+</div>
+<div id="applicability-limitations-hazel-1943" class="section level3">
+<h3>4.3 Applicability Limitations (Hazel, 1943)</h3>
+<p>While these indices are powerful predictive models, their real-world
+applicability operates under the limitations established by classical
+breeding theory (Hazel, 1943):</p>
+<ol style="list-style-type: decimal">
+<li><strong>Economic Variability:</strong> Relative economic values
+(<span class="math inline">\(\mathbf{w}\)</span>) fluctuate by location,
+market demand, and enterprise goals.</li>
+<li><strong>Genetic Context:</strong> A given genetic covariance matrix
+(<span class="math inline">\(\mathbf{G}\)</span>) is specific to the
+mating system and breeding population evaluated.</li>
+<li><strong>Environmental Variance:</strong> Phenotypic standard
+deviations (<span class="math inline">\(\mathbf{P}\)</span>) differ
+among environments and management practices.</li>
+<li><strong>Sampling Error:</strong> Small datasets fail to provide the
+reliable genetic variance constants required to form precise predictive
+indices.</li>
+</ol>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>The <code>selection.index</code> package provides highly flexible
+options beyond the simple unrestricted index. The <strong>RLPSI</strong>
+is useful when strictly zero-change bounds are needed on specific
+traits. The <strong>PPG-LPSI</strong> caters to breeders focusing on a
+strict multi-trait improvement ratio. Finally, the
+<strong>DG-LPSI</strong> provides a powerful alternative for scenarios
+where economic weights are notoriously difficult to estimate, but ideal
+target gains are known. When using these constrained models, breeders
+must continuously balance their specific phenotypic goals against the
+intrinsic statistical costs to overall genetic efficiency.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
