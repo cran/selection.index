@@ -38,6 +38,7 @@ test_that("cpp_grouped_sums handles single group", {
 })
 
 test_that("cpp_grouped_sums validates group_idx size", {
+  skip_on_cran() # error handling test or warning test
   data_mat <- matrix(rnorm(30), nrow = 10, ncol = 3)
   group_idx <- c(1L, 2L, 3L) # Wrong size
 
@@ -48,6 +49,7 @@ test_that("cpp_grouped_sums validates group_idx size", {
 })
 
 test_that("cpp_grouped_sums validates positive integers", {
+  skip_on_cran() # error handling test or warning test
   data_mat <- matrix(rnorm(30), nrow = 10, ncol = 3)
   group_idx <- c(0L, 1L, 1L, 2L, 2L, 2L, 3L, 3L, 3L, 3L) # Contains 0
 
@@ -85,6 +87,7 @@ test_that("cpp_multi_grouped_sums handles empty data", {
 })
 
 test_that("cpp_multi_grouped_sums validates group sizes", {
+  skip_on_cran() # error handling test or warning test
   data_mat <- matrix(rnorm(24), nrow = 8, ncol = 3)
   group_idx1 <- c(1L, 1L, 2L, 2L) # Wrong size
   group_idx2 <- c(1L, 2L, 1L, 2L, 1L, 2L, 1L, 2L)
@@ -96,6 +99,7 @@ test_that("cpp_multi_grouped_sums validates group sizes", {
 })
 
 test_that("cpp_multi_grouped_sums validates positive integers", {
+  skip_on_cran() # error handling test or warning test
   data_mat <- matrix(rnorm(24), nrow = 8, ncol = 3)
   group_idx1 <- c(1L, 1L, 2L, 2L, 1L, 1L, 2L, 2L)
   group_idx2 <- c(0L, 1L, 1L, 2L, 1L, 2L, 1L, 2L) # Contains 0
@@ -625,6 +629,7 @@ test_that("cpp_mean_squares handles larger matrices", {
 # ==============================================================================
 
 test_that("cpp_grouped_sums triggers invalid matrix dimensions on integer overflow", {
+  skip_on_cran()
   skip_on_os("mac")
   data_mat <- matrix(1.0, nrow = 1, ncol = 1)
   # R NA_integer_ is -2147483648, which underflows/overflows when processed in C++.

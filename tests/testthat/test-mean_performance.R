@@ -271,6 +271,7 @@ test_that("mean.performance default design_type is RCBD", {
 })
 
 test_that("mean.performance validates LSD requires columns", {
+  skip_on_cran() # error handling test or warning test
   # Should error when LSD specified without columns
   expect_error(
     mean_performance(
@@ -439,6 +440,7 @@ test_that("mean.performance Min/Max match genotype means", {
 
 # --- line 31: SPD without main_plots stops with error -------------------------
 test_that("mean_performance stops for SPD without main_plots (line 31)", {
+  skip_on_cran() # error handling test or warning test
   spd <- .make_spd()
   expect_error(
     mean_performance(
@@ -522,8 +524,8 @@ test_that("mean_performance computes SPD SEm, CD5, CD1, and GV (lines 166-211)",
   sem_vals <- suppressWarnings(as.numeric(sem_row[, c("trait1", "trait2")]))
 
   # Remove significance annotations (like " NS" or "**") before conversion
-  cd5_clean <- gsub("[a-zA-Z*\\s]", "", cd5_row[, c("trait1", "trait2")])
-  cd1_clean <- gsub("[a-zA-Z*\\s]", "", cd1_row[, c("trait1", "trait2")])
+  cd5_clean <- gsub("[a-zA-Z*\\s]", "", cd5_row[, c("trait1", "trait2")], perl = TRUE)
+  cd1_clean <- gsub("[a-zA-Z*\\s]", "", cd1_row[, c("trait1", "trait2")], perl = TRUE)
 
   cd5_vals <- suppressWarnings(as.numeric(cd5_clean))
   cd1_vals <- suppressWarnings(as.numeric(cd1_clean))
